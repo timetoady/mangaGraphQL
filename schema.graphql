@@ -23,7 +23,8 @@ type Manga {
   publishedFrom: DateTime!
   publishedTo: DateTime
   synopsis: String
-  title_english: String!
+  title: String!
+  title_english: String
   title_japanese: String!
   updatedAt: DateTime!
   volumes: Int

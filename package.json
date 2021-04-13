@@ -10,7 +10,8 @@
     "nexus": "1.0.0"
   },
   "scripts": {
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "seed": "npx prisma db seed --preview-feature"
   },
   "devDependencies": {
     "nodemon": "2.0.7",

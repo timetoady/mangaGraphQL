@@ -17,8 +17,9 @@ model Manga {
   id             Int       @id @default(autoincrement())
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
-  title_english  String
+  title_english  String?
   title_japanese String
+  title          String
   synopsis       String?
   image_url      String
   //genres         String[]
