@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Author {
+  id    Int     @id @default(autoincrement())
+  name  String
+  manga Manga[]
+}
+
+model Manga {
+  id             Int       @id @default(autoincrement())
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  title_english  String
+  title_japanese String
+  synopsis       String?
+  image_url      String
+  //genres         String[]
+  volumes        Int?
+  chapters       Int?
+  ongoing        Boolean
+  publishedFrom  DateTime
+  publishedTo    DateTime?
+  author         Author?   @relation(fields: [authorId], references: [id])
+  authorId       Int?
+}
