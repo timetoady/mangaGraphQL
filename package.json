@@ -3,19 +3,23 @@
   "version": "1.0.0",
   "license": "MIT",
   "dependencies": {
-    "@prisma/client": "2.20.1",
+    "@prisma/client": "^2.20.1",
     "apollo-server": "2.22.2",
     "graphql": "15.5.0",
     "graphql-scalars": "1.9.0",
     "nexus": "1.0.0"
   },
   "scripts": {
+    "nuke": "docker stop graphql-docker && docker rm graphql-docker && docker volume rm -f pgdata && rm -rf prisma/migration",
+    "launchDocker": "docker run --name graphql-docker -e POSTGRES_PASSWORD=iwYwBmMP5590 -dp 5432:5432 -v pgdata:/var/lib/postgresql/data postgres:latest",
+    "migrate": "npx prisma migrate dev --name postgress-manga",
     "dev": "nodemon src/server.js",
-    "seed": "npx prisma db seed --preview-feature"
+    "seed": "npx prisma db seed --preview-feature",
+    "mangaSeed": "node prisma/mangaSeed/seedManga.js"
   },
   "devDependencies": {
     "nodemon": "2.0.7",
-    "prisma": "2.20.1"
+    "prisma": "^2.20.1"
   },
   "prettier": {
     "singleQuote": true,

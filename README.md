@@ -1,6 +1,7 @@
 # GraphQL Server Example
 
 For easy studio access: npx prisma studio
+To migrate: npx prisma migrate dev --name name-by-dashes
 
 This example shows how to implement a **GraphQL server with JavaScript** with the following stack:
 

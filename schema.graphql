@@ -30,8 +30,18 @@ type Manga {
   volumes: Int
 }
 
+input MangaCreateInput {
+  synopsis: String
+  title: String!
+}
+
+type Mutation {
+  createManga(authorName: String!, data: MangaCreateInput!): Manga
+}
+
 type Query {
   allAuthors: [Author!]!
   allManga: [Manga!]!
   mangaById(id: Int): Manga
+  mangaByTitle(id: Int): Manga
 }
