@@ -21,10 +21,10 @@ function getNested(fn, defaultVal) {
   }
 }
 
-function returnDate(object) {
-  let year = getNested(() => object["prop"].to["year"])
-  let month = getNested(() => object["prop"].to["month"])
-  let day = getNested(() => object["prop"].to["day"])
+ function returnDateTo(object) {
+  let year =  getNested(() => object["prop"].to["year"])
+  let month =  getNested(() => object["prop"].to["month"])
+  let day =  getNested(() => object["prop"].to["day"])
   let theDate = new Date(year, month, day)
   if (year === null) {
       return null
@@ -32,6 +32,37 @@ function returnDate(object) {
       return theDate
   }
 }
+
+ function returnDateFrom(object) {
+  let year =  getNested(() => object["prop"].from["year"])
+  let month =  getNested(() => object["prop"].from["month"])
+  let day =  getNested(() => object["prop"].from["day"])
+  let theDate = new Date(year, month, day)
+  return theDate
+}
+
+function getAuthors(authorArray) {
+  const theAuthors = []
+  authorArray.forEach(author =>{
+    theAuthors.push(author.name)
+  })
+  if(theAuthors.length === 1){
+      return theAuthors[0]
+  } else{
+      return theAuthors.join(' & ')
+  }
+  
+}
+
+function getGenres(genreArray) {
+  const theGenres = []
+  genreArray.forEach(genre =>{
+    theGenres.push(genre.name)
+  })
+  return theGenres
+}
+
+
 
 const Query = objectType({
   name: 'Query',
@@ -47,6 +78,24 @@ const Query = objectType({
       type: 'Manga',
       resolve: (_parent, _args, context) => {
         return context.prisma.manga.findMany()
+      },
+    })
+
+    t.nonNull.list.nonNull.field('ongoing', {
+      type: 'Manga',
+      resolve: (_parent, _args, context) => {
+        return context.prisma.manga.findMany({
+          where: {ongoing: true},
+        })
+      },
+    })
+
+    t.nonNull.list.nonNull.field('finished', {
+      type: 'Manga',
+      resolve: (_parent, _args, context) => {
+        return context.prisma.manga.findMany({
+          where: {ongoing: false},
+        })
       },
     })
 
@@ -73,6 +122,8 @@ const Query = objectType({
         })
       },
     })
+
+
 
     // t.nonNull.list.nonNull.field('feed', {
     //   type: 'Post',
@@ -136,34 +187,25 @@ const Query = objectType({
 const Mutation = objectType({
   name: 'Mutation',
   definition(t) {
-    // t.nonNull.field('signupUser', {
-    //   type: 'User',
-    //   args: {
-    //     data: nonNull(
-    //       arg({
-    //         type: 'UserCreateInput',
-    //       }),
-    //     ),
-    //   },
-    //   resolve: (_, args, context) => {
-    //     const postData = args.data.posts
-    //       ? args.data.posts.map((post) => {
-    //         return { title: post.title, content: post.content || undefined }
-    //       })
-    //       : []
-    //     return context.prisma.user.create({
-    //       data: {
-    //         name: args.data.name,
-    //         email: args.data.email,
-    //         posts: {
-    //           create: postData,
-    //         },
-    //       },
-    //     })
-    //   },
-    // })
+    t.nonNull.field('addAuthor', {
+      type: 'Author',
+      args: {
+        data: nonNull(
+          arg({
+            type: 'AuthorCreateInput',
+          }),
+        ),
+      },
+      resolve: (_, args, context) => {
+        return context.prisma.author.create({
+          data: {
+            name: args.data.name,
+          },
+        })
+      },
+    })
 
-    t.field('createManga', {
+    t.field('addManga', {
       type: 'Manga',
       args: {
         data: nonNull(
@@ -184,8 +226,9 @@ const Mutation = objectType({
             volumes: args.data.volumes,
             chapters: args.data.chapters,
             ongoing: args.data.ongoing,
-            publishedFrom: returnDate(args.data.publishedFrom),
-            publishedTo: returnDate(args.data.publishedTo),
+            genres: getGenres(args.data.genres),
+            publishedFrom: returnDateFrom(args.data.publishedFrom),
+            publishedTo: returnDateTo(args.data.publishedTo),
             author: {
               connect: { name: args.authorName },
             },
@@ -237,17 +280,17 @@ const Mutation = objectType({
     //   },
     // })
 
-    // t.field('deletePost', {
-    //   type: 'Post',
-    //   args: {
-    //     id: nonNull(intArg()),
-    //   },
-    //   resolve: (_, args, context) => {
-    //     return context.prisma.post.delete({
-    //       where: { id: args.id },
-    //     })
-    //   },
-    // })
+    t.field('deleteManga', {
+      type: 'Manga',
+      args: {
+        id: nonNull(intArg()),
+      },
+      resolve: (_, args, context) => {
+        return context.prisma.Manga.delete({
+          where: { id: args.id },
+        })
+      },
+    })
   },
 })
 
@@ -326,14 +369,12 @@ const MangaCreateInput = inputObjectType({
   },
 })
 
-// const UserCreateInput = inputObjectType({
-//   name: 'UserCreateInput',
-//   definition(t) {
-//     t.nonNull.string('email')
-//     t.string('name')
-//     t.list.nonNull.field('posts', { type: 'PostCreateInput' })
-//   },
-// })
+const AuthorCreateInput = inputObjectType({
+  name: 'AuthorCreateInput',
+  definition(t) {
+    t.string('name')
+  },
+})
 
 const schema = makeSchema({
   types: [
@@ -342,7 +383,7 @@ const schema = makeSchema({
     Manga,
     Author,
     // UserUniqueInput,
-    // UserCreateInput,
+    AuthorCreateInput,
     MangaCreateInput,
     // SortOrder,
     // PostOrderByUpdatedAtInput,

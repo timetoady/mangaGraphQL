@@ -14,6 +14,7 @@ async function gimmePublished() {
         let month = getNested(() => eachManga.published["prop"].from["month"])
         let day = getNested(() => eachManga.published["prop"].from["day"])
         return new Date(year, month, day)
+        
 
         //return getNested(() => eachManga.published["prop"].from["day"])
     }))
@@ -23,4 +24,35 @@ async function gimmePublished() {
     // }),
 }
 
-gimmePublished()
+// gimmePublished()
+
+async function getAuthors() {
+  console.log(theManga.manga.map(eachManga =>{
+    authorArray = getNested(() => eachManga.authors)
+    const theAuthors = []
+    authorArray.forEach(author =>{
+      theAuthors.push(author.name)
+    })
+    return theAuthors
+  }))
+}
+
+function getGenres(eachManga) {
+  genreArray = getNested(() => eachManga.genres)
+  const theGenres = []
+  genreArray.forEach(genres =>{
+    theGenres.push(genres.name)
+  })
+  return theGenres
+}
+
+function getGenresHere() {
+  console.log(theManga.manga.map(eachManga =>{
+    return getGenres(eachManga)
+
+  }))
+}
+
+
+
+getGenresHere()

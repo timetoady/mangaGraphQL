@@ -15,7 +15,8 @@
     "migrate": "npx prisma migrate dev --name postgress-manga",
     "dev": "nodemon src/server.js",
     "seed": "npx prisma db seed --preview-feature",
-    "mangaSeed": "node prisma/mangaSeed/seedManga.js"
+    "mangaSeed": "node prisma/mangaSeed/seedManga.js",
+    "test": "node prisma/mangaSeed/test.js"
   },
   "devDependencies": {
     "nodemon": "2.0.7",

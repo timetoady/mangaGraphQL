@@ -27,7 +27,7 @@ model Manga {
   title          String
   synopsis       String?
   image_url      String
-  //genres         String[]
+  genres         String[]
   volumes        Int?
   chapters       Int?
   ongoing        Boolean
