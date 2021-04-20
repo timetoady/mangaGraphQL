@@ -10,7 +10,7 @@
     "nexus": "1.0.0"
   },
   "scripts": {
-    "nuke": "docker stop graphql-docker && docker rm graphql-docker && docker volume rm -f pgdata && rm -rf prisma/migration",
+    "nuke": "docker stop graphql-docker && docker rm graphql-docker && docker volume rm -f pgdata && prisma rm -rf prisma/migration",
     "launchDocker": "docker run --name graphql-docker -e POSTGRES_PASSWORD=iwYwBmMP5590 -dp 5432:5432 -v pgdata:/var/lib/postgresql/data postgres:latest",
     "migrate": "npx prisma migrate dev --name postgress-manga",
     "dev": "nodemon src/server.js",
