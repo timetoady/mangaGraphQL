@@ -16,7 +16,8 @@
     "dev": "nodemon src/server.js",
     "seed": "npx prisma db seed --preview-feature",
     "mangaSeed": "node prisma/mangaSeed/seedManga.js",
-    "test": "node prisma/mangaSeed/test.js"
+    "test": "node prisma/mangaSeed/test.js",
+    "start": "node src/server.js"
   },
   "devDependencies": {
     "nodemon": "2.0.7",
