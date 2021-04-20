@@ -7,7 +7,7 @@ const {
   inputObjectType,
   arg,
   asNexusMethod,
-  enumType,
+  // enumType,
 } = require('nexus')
 const { DateTimeResolver } = require('graphql-scalars')
 
