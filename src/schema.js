@@ -227,12 +227,16 @@ const Mutation = objectType({
     t.field('addManga', {
       type: 'Manga',
       args: {
+        author: nonNull(
+          arg({
+            type: 'AuthorCreateInput'
+          })
+        ),
         data: nonNull(
           arg({
             type: 'MangaCreateInput',
           }),
         ),
-        authorName: (stringArg()),
       },
       resolve: (_, args, context) => {
         return context.prisma.manga.create({
@@ -253,7 +257,7 @@ const Mutation = objectType({
             publishedTo: args.data.publishedTo,
             //author: args.data.author
             author: {
-              connect: { name: args.authorName },
+              connect: { name: args.author },
             },
           },
         })

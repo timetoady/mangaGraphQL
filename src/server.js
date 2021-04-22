@@ -6,10 +6,7 @@ const { context } = require('./context')
 const server = new ApolloServer({
   schema: schema,
   context: context,
-  cors: {
-    origin: false,
-    credentials: false
-  }
+  cors: false 
 })
 
 server.listen({ port: process.env.PORT || 4000 }).then(async ({ url }) => {
