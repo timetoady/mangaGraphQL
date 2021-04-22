@@ -69,7 +69,13 @@ async function loadManga() {
         ongoing: manga.publishing,
         publishedFrom: returnDateFrom(manga.published),
         publishedTo: returnDateTo(manga.published),
-        //author: manga.authors
+        author: {
+          create: [
+            {
+              name: manga.authors
+            },
+          ],
+        }
       },
     }
   })

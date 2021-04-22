@@ -111,10 +111,23 @@ const Query = objectType({
       },
     })
 
+    t.nullable.field('authorById', {
+      type: 'Author',
+      args: {
+        id: intArg(),
+      },
+      resolve: (_parent, args, context) => {
+        return context.prisma.author.findUnique({
+          where: { id: args.id || undefined },
+        })
+      },
+    })
+
+
     t.nullable.field('mangaByTitle', {
       type: 'Manga',
       args: {
-        id: intArg(),
+        title: stringArg(),
       },
       resolve: (_parent, args, context) => {
         return context.prisma.manga.findUnique({
@@ -187,6 +200,7 @@ const Query = objectType({
 const Mutation = objectType({
   name: 'Mutation',
   definition(t) {
+
     t.nonNull.field('addAuthor', {
       type: 'Author',
       args: {
@@ -213,7 +227,7 @@ const Mutation = objectType({
             type: 'MangaCreateInput',
           }),
         ),
-        authorName: nonNull(stringArg()),
+        authorName: (stringArg()),
       },
       resolve: (_, args, context) => {
         return context.prisma.manga.create({
@@ -226,12 +240,16 @@ const Mutation = objectType({
             volumes: args.data.volumes,
             chapters: args.data.chapters,
             ongoing: args.data.ongoing,
-            genres: getGenres(args.data.genres),
-            publishedFrom: returnDateFrom(args.data.publishedFrom),
-            publishedTo: returnDateTo(args.data.publishedTo),
-            author: {
-              connect: { name: args.authorName },
-            },
+            genres: args.data.genres,
+            // genres: getGenres(args.data.genres),
+            // publishedFrom: returnDateFrom(args.data.publishedFrom),
+            // publishedTo: returnDateTo(args.data.publishedTo),
+            publishedFrom: args.data.publishedFrom,
+            publishedTo: args.data.publishedTo,
+            author: args.data.author
+            // author: {
+            //   connect: { name: args.authorName },
+            // },
           },
         })
       },
@@ -280,13 +298,56 @@ const Mutation = objectType({
     //   },
     // })
 
+
+    t.field('updateManga', {
+      type: 'Manga',
+      args: {
+        id: nonNull(intArg()),
+        data: nonNull(
+          arg({
+            type: 'MangaCreateInput',
+          }),
+        ),
+      },
+      resolve: (_, args, context) => {
+        return context.prisma.manga.update({
+          where: { id: args.id || undefined },
+          data: {
+            title: args.data.title,
+            title_english: args.data.title_english,
+            title_japanese: args.data.title_japanese,
+            synopsis: args.data.synopsis,
+            image_url: args.data.image_url,
+            volumes: args.data.volumes,
+            chapters: args.data.chapters,
+            ongoing: args.data.ongoing,
+            author: args.data.author
+          },
+        })
+      },
+    })
+
+
+    t.field('deleteAuthor', {
+      type: 'Author',
+      args: {
+        id: nonNull(intArg()),
+      },
+      resolve: (_, args, context) => {
+        return context.prisma.author.delete({
+          where: { id: args.id },
+        })
+      },
+    })
+
+
     t.field('deleteManga', {
       type: 'Manga',
       args: {
         id: nonNull(intArg()),
       },
       resolve: (_, args, context) => {
-        return context.prisma.Manga.delete({
+        return context.prisma.manga.delete({
           where: { id: args.id },
         })
       },
@@ -294,21 +355,24 @@ const Mutation = objectType({
   },
 })
 
+
+
 const Author = objectType({
   name: 'Author',
   definition(t) {
     t.nonNull.int('id')
     t.nonNull.string('name')
-    t.nonNull.list.nonNull.field('manga', {
-      type: 'Manga',
-      resolve: (parent, _, context) => {
-        return context.prisma.author
-          .findUnique({
-            where: { id: parent.id || undefined },
-          })
-          .manga()
-      },
-    })
+    t.nonNull.string('manga')
+    // t.nonNull.list.field('manga', {
+    //   type: 'Manga',
+    //   resolve: (parent, _, context) => {
+    //     return context.prisma.author
+    //       .findUnique({
+    //         where: { id: parent.id || undefined },
+    //       })
+    //       .manga()
+    //   },
+    // })
   },
 })
 
@@ -320,24 +384,25 @@ const Manga = objectType({
     t.nonNull.field('updatedAt', { type: 'DateTime' })
     t.nonNull.string('title')
     t.string('title_english')
-    t.nonNull.string('title_japanese')
+    t.string('title_japanese')
     t.string('synopsis')
     t.nonNull.string('image_url')
     t.int('volumes')
     t.int('chapters')
     t.nonNull.boolean('ongoing')
-    t.nonNull.field('publishedFrom', { type: 'DateTime' })
+    t.field('publishedFrom', { type: 'DateTime' })
     t.field('publishedTo', { type: 'DateTime' })
-    t.field('author', {
-      type: 'Author',
-      resolve: (parent, _, context) => {
-        return context.prisma.manga
-          .findUnique({
-            where: { id: parent.id || undefined },
-          })
-          .author()
-      },
-    })
+    t.nonNull.string('author')
+    // t.field('author', {
+    //   type: 'Author',
+    //   resolve: (parent, _, context) => {
+    //     return context.prisma.manga
+    //       .findUnique({
+    //         where: { id: parent.id || undefined },
+    //       })
+    //       .author()
+    //   },
+    // })
   },
 })
 
@@ -365,14 +430,25 @@ const MangaCreateInput = inputObjectType({
   name: 'MangaCreateInput',
   definition(t) {
     t.nonNull.string('title')
+    t.nonNull.string('author')
+    t.string('title_japanese')
+    t.nonNull.string('image_url')
+    t.nonNull.boolean('ongoing')
+    t.field('publishedFrom', { type: 'DateTime' })
+    t.string('title_english')
     t.string('synopsis')
+    t.int('volumes')
+    t.int('chapters')
+    t.field('publishedTo', { type: 'DateTime' })
   },
 })
+
 
 const AuthorCreateInput = inputObjectType({
   name: 'AuthorCreateInput',
   definition(t) {
-    t.string('name')
+    t.nonNull.string('name')
+    t.nonNull.string('manga')
   },
 })
 
