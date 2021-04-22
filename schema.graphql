@@ -4,12 +4,12 @@
 
 type Author {
   id: Int!
-  manga: String!
+  manga: [Manga]!
   name: String!
 }
 
 input AuthorCreateInput {
-  manga: String!
+  manga: String
   name: String!
 }
 

@@ -362,17 +362,17 @@ const Author = objectType({
   definition(t) {
     t.nonNull.int('id')
     t.nonNull.string('name')
-    t.nonNull.string('manga')
-    // t.nonNull.list.field('manga', {
-    //   type: 'Manga',
-    //   resolve: (parent, _, context) => {
-    //     return context.prisma.author
-    //       .findUnique({
-    //         where: { id: parent.id || undefined },
-    //       })
-    //       .manga()
-    //   },
-    // })
+    t.string('manga')
+    t.nonNull.list.field('manga', {
+      type: 'Manga',
+      resolve: (parent, _, context) => {
+        return context.prisma.author
+          .findUnique({
+            where: { id: parent.id || undefined },
+          })
+          .manga()
+      },
+    })
   },
 })
 
@@ -448,7 +448,7 @@ const AuthorCreateInput = inputObjectType({
   name: 'AuthorCreateInput',
   definition(t) {
     t.nonNull.string('name')
-    t.nonNull.string('manga')
+    t.string('manga')
   },
 })
 
