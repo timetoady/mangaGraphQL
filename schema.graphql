@@ -19,7 +19,7 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTime
 
 type Manga {
-  author: String!
+  author: Author
   chapters: Int
   createdAt: DateTime!
   id: Int!
@@ -36,7 +36,7 @@ type Manga {
 }
 
 input MangaCreateInput {
-  author: String!
+  author: String
   chapters: Int
   image_url: String!
   ongoing: Boolean!
@@ -50,7 +50,7 @@ input MangaCreateInput {
 }
 
 type Mutation {
-  addAuthor(data: AuthorCreateInput!): Author!
+  addAuthor(data: AuthorCreateInput!, manga: MangaCreateInput!): Author!
   addManga(authorName: String, data: MangaCreateInput!): Manga
   deleteAuthor(id: Int!): Author
   deleteManga(id: Int!): Manga

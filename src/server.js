@@ -7,7 +7,7 @@ const server = new ApolloServer({
   schema: schema,
   context: context,
   cors: {
-    origin: "*",
+    origin: false,
     credentials: false
   }
 })

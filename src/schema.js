@@ -209,6 +209,11 @@ const Mutation = objectType({
             type: 'AuthorCreateInput',
           }),
         ),
+        manga: nonNull(
+          arg({
+            type: 'MangaCreateInput'
+          })
+        )
       },
       resolve: (_, args, context) => {
         return context.prisma.author.create({
@@ -246,10 +251,10 @@ const Mutation = objectType({
             // publishedTo: returnDateTo(args.data.publishedTo),
             publishedFrom: args.data.publishedFrom,
             publishedTo: args.data.publishedTo,
-            author: args.data.author
-            // author: {
-            //   connect: { name: args.authorName },
-            // },
+            //author: args.data.author
+            author: {
+              connect: { name: args.authorName },
+            },
           },
         })
       },
@@ -392,17 +397,17 @@ const Manga = objectType({
     t.nonNull.boolean('ongoing')
     t.field('publishedFrom', { type: 'DateTime' })
     t.field('publishedTo', { type: 'DateTime' })
-    t.nonNull.string('author')
-    // t.field('author', {
-    //   type: 'Author',
-    //   resolve: (parent, _, context) => {
-    //     return context.prisma.manga
-    //       .findUnique({
-    //         where: { id: parent.id || undefined },
-    //       })
-    //       .author()
-    //   },
-    // })
+    //t.string('author')
+    t.field('author', {
+      type: 'Author',
+      resolve: (parent, _, context) => {
+        return context.prisma.manga
+          .findUnique({
+            where: { id: parent.id || undefined },
+          })
+          .author()
+      },
+    })
   },
 })
 
@@ -430,7 +435,7 @@ const MangaCreateInput = inputObjectType({
   name: 'MangaCreateInput',
   definition(t) {
     t.nonNull.string('title')
-    t.nonNull.string('author')
+    t.string('author')
     t.string('title_japanese')
     t.nonNull.string('image_url')
     t.nonNull.boolean('ongoing')
