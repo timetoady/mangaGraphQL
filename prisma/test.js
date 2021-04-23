@@ -24,7 +24,7 @@ async function gimmePublished() {
     // }),
 }
 
-// gimmePublished()
+
 
 async function getAuthors() {
   console.log(theManga.manga.map(eachManga =>{
@@ -52,7 +52,3 @@ function getGenresHere() {
 
   }))
 }
-
-
-
-getGenresHere()
