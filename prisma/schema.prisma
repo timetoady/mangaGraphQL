@@ -26,6 +26,7 @@ model Manga {
   title_english  String?
   title_japanese String
   title          String
+  author        String
   synopsis       String?
   image_url      String
   genres         String[]
@@ -34,7 +35,7 @@ model Manga {
   ongoing        Boolean
   publishedFrom  DateTime
   publishedTo    DateTime?
-  author         String
+ 
   // author         Author?   @relation(fields: [authorId], references: [id])
   // authorId       Int?
   

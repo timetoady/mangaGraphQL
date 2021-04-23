@@ -393,6 +393,7 @@ const Manga = objectType({
     t.nonNull.string('image_url')
     t.int('volumes')
     t.int('chapters')
+    t.string('genres')
     t.nonNull.boolean('ongoing')
     t.field('publishedFrom', { type: 'DateTime' })
     t.field('publishedTo', { type: 'DateTime' })
@@ -435,15 +436,17 @@ const MangaCreateInput = inputObjectType({
   definition(t) {
     t.nonNull.string('title')
     t.nonNull.string('author')
-    t.string('title_japanese')
     t.nonNull.string('image_url')
-    t.nonNull.boolean('ongoing')
-    t.field('publishedFrom', { type: 'DateTime' })
+    t.string('title_japanese')
     t.string('title_english')
+    t.nonNull.boolean('ongoing')
     t.string('synopsis')
+    t.field('publishedFrom', { type: 'DateTime' })
+    t.field('publishedTo', { type: 'DateTime' })
+    t.string('genres')
     t.int('volumes')
     t.int('chapters')
-    t.field('publishedTo', { type: 'DateTime' })
+    
   },
 })
 
