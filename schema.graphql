@@ -2,24 +2,13 @@
 ### Do not make changes to this file directly
 
 
-type Author {
-  id: Int!
-  manga: [Manga]!
-  name: String!
-}
-
-input AuthorCreateInput {
-  manga: String
-  name: String!
-}
-
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
 scalar DateTime
 
 type Manga {
-  author: Author
+  author: String
   chapters: Int
   createdAt: DateTime!
   id: Int!
@@ -36,7 +25,7 @@ type Manga {
 }
 
 input MangaCreateInput {
-  author: String
+  author: String!
   chapters: Int
   image_url: String!
   ongoing: Boolean!
@@ -50,17 +39,13 @@ input MangaCreateInput {
 }
 
 type Mutation {
-  addAuthor(data: AuthorCreateInput!, manga: MangaCreateInput!): Author!
-  addManga(author: AuthorCreateInput!, data: MangaCreateInput!): Manga
-  deleteAuthor(id: Int!): Author
+  addManga(data: MangaCreateInput!): Manga
   deleteManga(id: Int!): Manga
   updateManga(data: MangaCreateInput!, id: Int!): Manga
 }
 
 type Query {
-  allAuthors: [Author!]!
   allManga: [Manga!]!
-  authorById(id: Int): Author
   finished: [Manga!]!
   mangaById(id: Int): Manga
   mangaByTitle(title: String): Manga
