@@ -227,11 +227,6 @@ const Mutation = objectType({
     t.field('addManga', {
       type: 'Manga',
       args: {
-        author: nonNull(
-          arg({
-            type: 'AuthorCreateInput'
-          })
-        ),
         data: nonNull(
           arg({
             type: 'MangaCreateInput',
@@ -255,10 +250,10 @@ const Mutation = objectType({
             // publishedTo: returnDateTo(args.data.publishedTo),
             publishedFrom: args.data.publishedFrom,
             publishedTo: args.data.publishedTo,
-            //author: args.data.author
-            author: {
-              connect: { name: args.author },
-            },
+            author: args.data.author
+            // author: {
+            //   connect: { name: args.author },
+            // },
           },
         })
       },
@@ -366,24 +361,24 @@ const Mutation = objectType({
 
 
 
-const Author = objectType({
-  name: 'Author',
-  definition(t) {
-    t.nonNull.int('id')
-    t.nonNull.string('name')
-    t.string('manga')
-    t.nonNull.list.field('manga', {
-      type: 'Manga',
-      resolve: (parent, _, context) => {
-        return context.prisma.author
-          .findUnique({
-            where: { id: parent.id || undefined },
-          })
-          .manga()
-      },
-    })
-  },
-})
+// const Author = objectType({
+//   name: 'Author',
+//   definition(t) {
+//     t.nonNull.int('id')
+//     t.nonNull.string('name')
+//     t.string('manga')
+//     t.nonNull.list.field('manga', {
+//       type: 'Manga',
+//       resolve: (parent, _, context) => {
+//         return context.prisma.author
+//           .findUnique({
+//             where: { id: parent.id || undefined },
+//           })
+//           .manga()
+//       },
+//     })
+//   },
+// })
 
 const Manga = objectType({
   name: 'Manga',
@@ -401,17 +396,17 @@ const Manga = objectType({
     t.nonNull.boolean('ongoing')
     t.field('publishedFrom', { type: 'DateTime' })
     t.field('publishedTo', { type: 'DateTime' })
-    //t.string('author')
-    t.field('author', {
-      type: 'Author',
-      resolve: (parent, _, context) => {
-        return context.prisma.manga
-          .findUnique({
-            where: { id: parent.id || undefined },
-          })
-          .author()
-      },
-    })
+    t.string('author')
+    // t.field('author', {
+    //   type: 'Author',
+    //   resolve: (parent, _, context) => {
+    //     return context.prisma.manga
+    //       .findUnique({
+    //         where: { id: parent.id || undefined },
+    //       })
+    //       .author()
+    //   },
+    // })
   },
 })
 
@@ -439,7 +434,7 @@ const MangaCreateInput = inputObjectType({
   name: 'MangaCreateInput',
   definition(t) {
     t.nonNull.string('title')
-    t.string('author')
+    t.nonNull.string('author')
     t.string('title_japanese')
     t.nonNull.string('image_url')
     t.nonNull.boolean('ongoing')
@@ -453,22 +448,22 @@ const MangaCreateInput = inputObjectType({
 })
 
 
-const AuthorCreateInput = inputObjectType({
-  name: 'AuthorCreateInput',
-  definition(t) {
-    t.nonNull.string('name')
-    t.string('manga')
-  },
-})
+// const AuthorCreateInput = inputObjectType({
+//   name: 'AuthorCreateInput',
+//   definition(t) {
+//     t.nonNull.string('name')
+//     t.string('manga')
+//   },
+// })
 
 const schema = makeSchema({
   types: [
     Query,
     Mutation,
     Manga,
-    Author,
+    //Author,
     // UserUniqueInput,
-    AuthorCreateInput,
+    //AuthorCreateInput,
     MangaCreateInput,
     // SortOrder,
     // PostOrderByUpdatedAtInput,

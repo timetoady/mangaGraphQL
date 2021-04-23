@@ -12,11 +12,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Author {
-  id    Int     @id @default(autoincrement())
-  name  String
-  manga Manga[]
-}
+// model Author {
+//   id    Int     @id @default(autoincrement())
+//   name  String
+//   manga Manga[]
+// }
 
 model Manga {
   id             Int       @id @default(autoincrement())
@@ -33,6 +33,7 @@ model Manga {
   ongoing        Boolean
   publishedFrom  DateTime
   publishedTo    DateTime?
-  author         Author?   @relation(fields: [authorId], references: [id])
-  authorId       Int?
+  author         String[]
+  // author         Author?   @relation(fields: [authorId], references: [id])
+  // authorId       Int?
 }

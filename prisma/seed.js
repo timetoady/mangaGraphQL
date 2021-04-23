@@ -69,13 +69,7 @@ async function loadManga() {
         ongoing: manga.publishing,
         publishedFrom: returnDateFrom(manga.published),
         publishedTo: returnDateTo(manga.published),
-        author: {
-          create: [
-            {
-              name: manga.authors
-            },
-          ],
-        }
+        author: getAuthors(manga.authors)
       },
     }
   })
@@ -111,8 +105,8 @@ async function loadAuthors() {
 }
 
 async function main() {
-  //const allManga = await loadManga()
-  const allAuthors = await loadAuthors()
+  const allManga = await loadManga()
+  //const allAuthors = await loadAuthors()
   // for (const manga of allManga) {
   //   try {
   //     await prisma.manga.create(manga)
@@ -120,9 +114,9 @@ async function main() {
   //     console.log(`Manga seeding has error: ${err}`)
   //   }
   // }
-  for (const author of allAuthors) {
+  for (const manga of allManga) {
     try {
-      await prisma.author.create(author)
+      await prisma.manga.create(manga)
     } catch (err) {
       console.log(`Author seeding has error: ${err}`)
     }
