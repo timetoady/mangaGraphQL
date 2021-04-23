@@ -14,7 +14,7 @@ Docker is used to create migration data, but since this server is decoupled from
 2. Use npm start to serve to http://localhost:4000/.
 3. Access the Netlify-hosted front end (https://objective-lumiere-fb0645.netlify.app/).  
 
-This is of course not ideal, but should work for testing until I resolve the issue or move to another hosting service (see a section of log of the issue [here](put link to errorLog here).) I am very interested in feedback there.
+This is of course not ideal, but should work for testing until I resolve the issue or move to another hosting service (see a section of log of the issue [here](https://github.com/timetoady/mangaGraphQL/blob/main/errorLog).) I am very interested in feedback there.
 
 ## Queries
 
@@ -28,7 +28,7 @@ Returns a list of mange that are still ongoing. Plans to for how to implement th
 
 #### Finished
 
-Returns a list of completed manga. Still seeking right implimentation.
+Returns a list of completed manga. Still seeking right implementation.
 
 #### mangaById
 

@@ -14,54 +14,6 @@ const { DateTimeResolver } = require('graphql-scalars')
 
 const DateTime = asNexusMethod(DateTimeResolver, 'date')
 
-function getNested(fn, defaultVal) {
-  try {
-    return fn()
-  } catch (e) {
-    return defaultVal
-  }
-}
-
-function returnDateTo(object) {
-  let year = getNested(() => object['prop'].to['year'])
-  let month = getNested(() => object['prop'].to['month'])
-  let day = getNested(() => object['prop'].to['day'])
-  let theDate = new Date(year, month, day)
-  if (year === null) {
-    return null
-  } else {
-    return theDate
-  }
-}
-
-function returnDateFrom(object) {
-  let year = getNested(() => object['prop'].from['year'])
-  let month = getNested(() => object['prop'].from['month'])
-  let day = getNested(() => object['prop'].from['day'])
-  let theDate = new Date(year, month, day)
-  return theDate
-}
-
-function getAuthors(authorArray) {
-  const theAuthors = []
-  authorArray.forEach((author) => {
-    theAuthors.push(author.name)
-  })
-  if (theAuthors.length === 1) {
-    return theAuthors[0]
-  } else {
-    return theAuthors.join(' & ')
-  }
-}
-
-function getGenres(genreArray) {
-  const theGenres = []
-  genreArray.forEach((genre) => {
-    theGenres.push(genre.name)
-  })
-  return theGenres
-}
-
 const Query = objectType({
   name: 'Query',
   definition(t) {
