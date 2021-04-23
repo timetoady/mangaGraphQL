@@ -7,6 +7,7 @@ const {
   inputObjectType,
   arg,
   asNexusMethod,
+  list,
   // enumType,
 } = require('nexus')
 const { DateTimeResolver } = require('graphql-scalars')
@@ -15,54 +16,51 @@ const DateTime = asNexusMethod(DateTimeResolver, 'date')
 
 function getNested(fn, defaultVal) {
   try {
-    return fn();
+    return fn()
   } catch (e) {
-    return defaultVal;
+    return defaultVal
   }
 }
 
- function returnDateTo(object) {
-  let year =  getNested(() => object["prop"].to["year"])
-  let month =  getNested(() => object["prop"].to["month"])
-  let day =  getNested(() => object["prop"].to["day"])
+function returnDateTo(object) {
+  let year = getNested(() => object['prop'].to['year'])
+  let month = getNested(() => object['prop'].to['month'])
+  let day = getNested(() => object['prop'].to['day'])
   let theDate = new Date(year, month, day)
   if (year === null) {
-      return null
-  } else{
-      return theDate
+    return null
+  } else {
+    return theDate
   }
 }
 
- function returnDateFrom(object) {
-  let year =  getNested(() => object["prop"].from["year"])
-  let month =  getNested(() => object["prop"].from["month"])
-  let day =  getNested(() => object["prop"].from["day"])
+function returnDateFrom(object) {
+  let year = getNested(() => object['prop'].from['year'])
+  let month = getNested(() => object['prop'].from['month'])
+  let day = getNested(() => object['prop'].from['day'])
   let theDate = new Date(year, month, day)
   return theDate
 }
 
 function getAuthors(authorArray) {
   const theAuthors = []
-  authorArray.forEach(author =>{
+  authorArray.forEach((author) => {
     theAuthors.push(author.name)
   })
-  if(theAuthors.length === 1){
-      return theAuthors[0]
-  } else{
-      return theAuthors.join(' & ')
+  if (theAuthors.length === 1) {
+    return theAuthors[0]
+  } else {
+    return theAuthors.join(' & ')
   }
-  
 }
 
 function getGenres(genreArray) {
   const theGenres = []
-  genreArray.forEach(genre =>{
+  genreArray.forEach((genre) => {
     theGenres.push(genre.name)
   })
   return theGenres
 }
-
-
 
 const Query = objectType({
   name: 'Query',
@@ -85,7 +83,7 @@ const Query = objectType({
       type: 'Manga',
       resolve: (_parent, _args, context) => {
         return context.prisma.manga.findMany({
-          where: {ongoing: true},
+          where: { ongoing: true },
         })
       },
     })
@@ -94,7 +92,7 @@ const Query = objectType({
       type: 'Manga',
       resolve: (_parent, _args, context) => {
         return context.prisma.manga.findMany({
-          where: {ongoing: false},
+          where: { ongoing: false },
         })
       },
     })
@@ -123,7 +121,6 @@ const Query = objectType({
     //   },
     // })
 
-
     t.nullable.field('mangaByTitle', {
       type: 'Manga',
       args: {
@@ -135,8 +132,6 @@ const Query = objectType({
         })
       },
     })
-
-
 
     // t.nonNull.list.nonNull.field('feed', {
     //   type: 'Post',
@@ -200,7 +195,6 @@ const Query = objectType({
 const Mutation = objectType({
   name: 'Mutation',
   definition(t) {
-
     // t.nonNull.field('addAuthor', {
     //   type: 'Author',
     //   args: {
@@ -250,7 +244,7 @@ const Mutation = objectType({
             // publishedTo: returnDateTo(args.data.publishedTo),
             publishedFrom: args.data.publishedFrom,
             publishedTo: args.data.publishedTo,
-            author: args.data.author
+            author: args.data.author,
             // author: {
             //   connect: { name: args.author },
             // },
@@ -302,7 +296,6 @@ const Mutation = objectType({
     //   },
     // })
 
-
     t.field('updateManga', {
       type: 'Manga',
       args: {
@@ -325,12 +318,11 @@ const Mutation = objectType({
             volumes: args.data.volumes,
             chapters: args.data.chapters,
             ongoing: args.data.ongoing,
-            author: args.data.author
+            author: args.data.author,
           },
         })
       },
     })
-
 
     // t.field('deleteAuthor', {
     //   type: 'Author',
@@ -343,7 +335,6 @@ const Mutation = objectType({
     //     })
     //   },
     // })
-
 
     t.field('deleteManga', {
       type: 'Manga',
@@ -358,8 +349,6 @@ const Mutation = objectType({
     })
   },
 })
-
-
 
 // const Author = objectType({
 //   name: 'Author',
@@ -393,7 +382,13 @@ const Manga = objectType({
     t.nonNull.string('image_url')
     t.int('volumes')
     t.int('chapters')
-    t.string('genres')
+    // t.string('genres')
+    t.field('genres', {
+      type: list('String'),
+      args: {
+        ids: list(stringArg()),
+      },
+    })
     t.nonNull.boolean('ongoing')
     t.field('publishedFrom', { type: 'DateTime' })
     t.field('publishedTo', { type: 'DateTime' })
@@ -443,13 +438,16 @@ const MangaCreateInput = inputObjectType({
     t.string('synopsis')
     t.field('publishedFrom', { type: 'DateTime' })
     t.field('publishedTo', { type: 'DateTime' })
-    t.string('genres')
+    t.field('genres', {
+      type: list('String'),
+      args: {
+        ids: list(stringArg()),
+      },
+    })
     t.int('volumes')
     t.int('chapters')
-    
   },
 })
-
 
 // const AuthorCreateInput = inputObjectType({
 //   name: 'AuthorCreateInput',

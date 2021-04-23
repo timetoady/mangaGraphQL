@@ -1,0 +1,12 @@
+2021-04-23T11:40:26.629975+00:00 app[web.1]: node[21]: ../src/node_http_parser.cc:567:static void node::{anonymous}::Parser::Initialize(const v8::FunctionCallbackInfo<v8::Value>&): Assertion `args[3]->IsInt32()' failed.
+2021-04-23T11:40:26.630694+00:00 app[web.1]: 1: 0xb12b00 node::Abort() [node]
+2021-04-23T11:40:26.631152+00:00 app[web.1]: 2: 0xb12b7e  [node]
+2021-04-23T11:40:26.631637+00:00 app[web.1]: 3: 0xb2a282  [node]
+2021-04-23T11:40:26.632161+00:00 app[web.1]: 4: 0xd5f70b  [node]
+2021-04-23T11:40:26.632679+00:00 app[web.1]: 5: 0xd60bac  [node]
+2021-04-23T11:40:26.633205+00:00 app[web.1]: 6: 0xd61226 v8::internal::Builtin_HandleApiCall(int, unsigned long*, v8::internal::Isolate*) [node]
+2021-04-23T11:40:26.633979+00:00 app[web.1]: 7: 0x160c579  [node]
+2021-04-23T11:40:26.637269+00:00 app[web.1]: Aborted
+2021-04-23T11:40:26.715268+00:00 heroku[web.1]: Process exited with status 134
+2021-04-23T11:40:26.768148+00:00 heroku[web.1]: State changed from up to crashed
+2021-04-23T11:40:26.637385+00:00 heroku[router]: at=error code=H13 desc="Connection closed without response" method=POST path="/" host=manga-graphql3.herokuapp.com request_id=b74bef93-5226-4759-92be-c108031ba1ba fwd="173.239.226.59" dyno=web.1 connect=0ms service=89ms status=503 bytes=0 protocol=https
