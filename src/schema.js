@@ -67,12 +67,12 @@ function getGenres(genreArray) {
 const Query = objectType({
   name: 'Query',
   definition(t) {
-    t.nonNull.list.nonNull.field('allAuthors', {
-      type: 'Author',
-      resolve: (_parent, _args, context) => {
-        return context.prisma.author.findMany()
-      },
-    })
+    // t.nonNull.list.nonNull.field('allAuthors', {
+    //   type: 'Author',
+    //   resolve: (_parent, _args, context) => {
+    //     return context.prisma.author.findMany()
+    //   },
+    // })
 
     t.nonNull.list.nonNull.field('allManga', {
       type: 'Manga',
@@ -111,17 +111,17 @@ const Query = objectType({
       },
     })
 
-    t.nullable.field('authorById', {
-      type: 'Author',
-      args: {
-        id: intArg(),
-      },
-      resolve: (_parent, args, context) => {
-        return context.prisma.author.findUnique({
-          where: { id: args.id || undefined },
-        })
-      },
-    })
+    // t.nullable.field('authorById', {
+    //   type: 'Author',
+    //   args: {
+    //     id: intArg(),
+    //   },
+    //   resolve: (_parent, args, context) => {
+    //     return context.prisma.author.findUnique({
+    //       where: { id: args.id || undefined },
+    //     })
+    //   },
+    // })
 
 
     t.nullable.field('mangaByTitle', {
@@ -201,28 +201,28 @@ const Mutation = objectType({
   name: 'Mutation',
   definition(t) {
 
-    t.nonNull.field('addAuthor', {
-      type: 'Author',
-      args: {
-        data: nonNull(
-          arg({
-            type: 'AuthorCreateInput',
-          }),
-        ),
-        manga: nonNull(
-          arg({
-            type: 'MangaCreateInput'
-          })
-        )
-      },
-      resolve: (_, args, context) => {
-        return context.prisma.author.create({
-          data: {
-            name: args.data.name,
-          },
-        })
-      },
-    })
+    // t.nonNull.field('addAuthor', {
+    //   type: 'Author',
+    //   args: {
+    //     data: nonNull(
+    //       arg({
+    //         type: 'AuthorCreateInput',
+    //       }),
+    //     ),
+    //     manga: nonNull(
+    //       arg({
+    //         type: 'MangaCreateInput'
+    //       })
+    //     )
+    //   },
+    //   resolve: (_, args, context) => {
+    //     return context.prisma.author.create({
+    //       data: {
+    //         name: args.data.name,
+    //       },
+    //     })
+    //   },
+    // })
 
     t.field('addManga', {
       type: 'Manga',
@@ -332,17 +332,17 @@ const Mutation = objectType({
     })
 
 
-    t.field('deleteAuthor', {
-      type: 'Author',
-      args: {
-        id: nonNull(intArg()),
-      },
-      resolve: (_, args, context) => {
-        return context.prisma.author.delete({
-          where: { id: args.id },
-        })
-      },
-    })
+    // t.field('deleteAuthor', {
+    //   type: 'Author',
+    //   args: {
+    //     id: nonNull(intArg()),
+    //   },
+    //   resolve: (_, args, context) => {
+    //     return context.prisma.author.delete({
+    //       where: { id: args.id },
+    //     })
+    //   },
+    // })
 
 
     t.field('deleteManga', {

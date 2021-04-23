@@ -75,34 +75,34 @@ async function loadManga() {
   })
 }
 
-async function loadAuthors() {
-    const allManga = theManga.manga
-    return allManga.map(manga => {
-        return {
-            data: {
-                name: getAuthors(manga.authors),
-                manga: {
-                  create: [
-                    {
-                      title: manga.title,
-                      title_english: manga.title_english,
-                      title_japanese: manga.title_japanese,
-                      synopsis: manga.synopsis,
-                      image_url: manga.image_url,
-                      genres: getGenres(manga.genres),
-                      volumes: manga.volumes,
-                      chapters: manga.chapters,
-                      ongoing: manga.publishing,
-                      publishedFrom: returnDateFrom(manga.published),
-                      publishedTo: returnDateTo(manga.published),
-                    },
-                  ],
+// async function loadAuthors() {
+//     const allManga = theManga.manga
+//     return allManga.map(manga => {
+//         return {
+//             data: {
+//                 name: getAuthors(manga.authors),
+//                 manga: {
+//                   create: [
+//                     {
+//                       title: manga.title,
+//                       title_english: manga.title_english,
+//                       title_japanese: manga.title_japanese,
+//                       synopsis: manga.synopsis,
+//                       image_url: manga.image_url,
+//                       genres: getGenres(manga.genres),
+//                       volumes: manga.volumes,
+//                       chapters: manga.chapters,
+//                       ongoing: manga.publishing,
+//                       publishedFrom: returnDateFrom(manga.published),
+//                       publishedTo: returnDateTo(manga.published),
+//                     },
+//                   ],
 
-                },
-            }
-        }
-    })
-}
+//                 },
+//             }
+//         }
+//     })
+// }
 
 async function main() {
   const allManga = await loadManga()
