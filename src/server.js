@@ -12,7 +12,7 @@ const server = new ApolloServer({
 
 })
 
-server.listen({ port: process.env.PORT || 4000 }).then(async ({ url }) => {
+server.listen({ port: process.env.PORT || 4000 }).then( ({ url }) => {
   console.log(`\
 🚀 Server ready at: ${url}
 ⭐️ See sample queries: http://pris.ly/e/js/graphql#using-the-graphql-api
