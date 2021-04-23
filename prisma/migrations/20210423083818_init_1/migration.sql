@@ -6,6 +6,7 @@ CREATE TABLE "Manga" (
     "title_english" TEXT,
     "title_japanese" TEXT NOT NULL,
     "title" TEXT NOT NULL,
+    "author" TEXT NOT NULL,
     "synopsis" TEXT,
     "image_url" TEXT NOT NULL,
     "genres" TEXT[],
@@ -14,7 +15,6 @@ CREATE TABLE "Manga" (
     "ongoing" BOOLEAN NOT NULL,
     "publishedFrom" TIMESTAMP(3) NOT NULL,
     "publishedTo" TIMESTAMP(3),
-    "author" TEXT NOT NULL,
 
     PRIMARY KEY ("id")
 );

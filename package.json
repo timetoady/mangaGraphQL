@@ -18,7 +18,8 @@
     "mangaSeed": "node prisma/mangaSeed/seedManga.js",
     "test": "node prisma/mangaSeed/test.js",
     "start": "node src/server.js",
-    "resetDB": "heroku restart && heroku pg:reset DATABASE_URL --confirm manga-graphql2 && heroku run rake db:migrate && heroku run rake db:seed"
+    "forcePushDB": "npx prisma db push --preview-feature",
+    "resetDB": "heroku restart && heroku pg:reset DATABASE_URL --confirm manga-graphql3 && heroku run rake db:migrate && heroku run rake db:seed"
   },
   "devDependencies": {
     "nodemon": "2.0.7",
