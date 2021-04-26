@@ -1,10 +1,16 @@
 # GraphQL API Node Server: Manga
 
-Originally, this server ran natively with the front end (https://objective-lumiere-fb0645.netlify.app/) accessing the this back end server via Heroku.
+~~Originally, this server ran natively with the front end (https://objective-lumiere-fb0645.netlify.app/) accessing the this back end server via Heroku.
 
 But things change fast.
 
-After an automatic server maintenance, any attempt to access this server via heroku (https://manga-graphql3.herokuapp.com/) via Postman causes it to immediately crash, and is blocked by CORS errors everywhere else. I've narrowed down the cause to be something to do with a depreciated http_parser, but I've spent too many hours on it now.
+After an automatic server maintenance, any attempt to access this server via heroku (https://manga-graphql3.herokuapp.com/) via Postman causes it to immediately crash, and is blocked by CORS errors everywhere else. I've narrowed down the cause to be something to do with a depreciated http_parser, but I've spent too many hours on it now.~~
+
+Edit 4/26/2021: Resolved the issue. It was due to a recent update in Prisma that [caused an error](https://github.com/prisma/prisma/issues/6682) from one of their dependancies (undici), because the `engines` setting in package.json for heroku was set to `>=10.00` for the node version as the default, heroku was using the latest version of node 16.00 where this crash happens. Changed `engines` to `14.x`. Boy, that took a while to figure out. :satisfied: :weary:
+
+Now I can finish adding the front end functionality to needed. :stuck_out_tongue_closed_eyes:
+
+End edit
 
 Docker is used to create migration data, but since this server is decoupled from the client side that's written in Svelte, it didn't seem feasible to negotiate deployment of the entire site using docker composer in the current time frame constraints.
 
