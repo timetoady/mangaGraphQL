@@ -8,7 +8,7 @@
     "graphql": "15.5.0",
     "graphql-scalars": "1.9.0",
     "nexus": "1.0.0",
-    "undici": "^3.3.6"
+    "undici": "^3.3.4"
   },
   "scripts": {
     "nuke": "docker stop graphql-docker && docker rm graphql-docker && docker volume rm -f pgdata && prisma rm -rf prisma/migration",
@@ -32,6 +32,6 @@
     "trailingComma": "all"
   },
   "engines": {
-    "node": ">=10.0.0"
+    "node": "14.x"
   }
 }
