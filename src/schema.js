@@ -49,6 +49,15 @@ const Query = objectType({
       },
     })
 
+    t.nonNull.list.nonNull.field('favorite', {
+      type: 'Manga',
+      resolve: (_parent, _args, context) => {
+        return context.prisma.manga.findMany({
+          where: { favorite: true },
+        })
+      },
+    })
+
     t.nullable.field('mangaById', {
       type: 'Manga',
       args: {
