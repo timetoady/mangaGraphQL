@@ -271,6 +271,7 @@ const Mutation = objectType({
             chapters: args.data.chapters,
             ongoing: args.data.ongoing,
             author: args.data.author,
+            favorite: args.data.favorite,
           },
         })
       },
@@ -342,6 +343,7 @@ const Manga = objectType({
       },
     })
     t.nonNull.boolean('ongoing')
+    t.boolean('favorite')
     t.field('publishedFrom', { type: 'DateTime' })
     t.field('publishedTo', { type: 'DateTime' })
     t.string('author')
@@ -387,6 +389,7 @@ const MangaCreateInput = inputObjectType({
     t.string('title_japanese')
     t.string('title_english')
     t.nonNull.boolean('ongoing')
+    t.boolean('favorite')
     t.string('synopsis')
     t.field('publishedFrom', { type: 'DateTime' })
     t.field('publishedTo', { type: 'DateTime' })

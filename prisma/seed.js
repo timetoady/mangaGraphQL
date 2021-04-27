@@ -69,7 +69,8 @@ async function loadManga() {
         ongoing: manga.publishing,
         publishedFrom: returnDateFrom(manga.published),
         publishedTo: returnDateTo(manga.published),
-        author: getAuthors(manga.authors)
+        author: getAuthors(manga.authors),
+        favorite: false,
       },
     }
   })

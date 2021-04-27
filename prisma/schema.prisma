@@ -33,6 +33,7 @@ model Manga {
   volumes        Int?
   chapters       Int?
   ongoing        Boolean
+  favorite       Boolean?
   publishedFrom  DateTime
   publishedTo    DateTime?
  
