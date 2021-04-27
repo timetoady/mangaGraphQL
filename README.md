@@ -31,10 +31,6 @@ Gets all current manga on the server. Client uses this to populate the page, and
 
 Returns a list of mange that are still ongoing. Plans to for how to implement this are still fermenting.
 
-#### Finished
-
-Returns a list of completed manga. Still seeking right implementation.
-
 #### mangaById
 
 Returns a manga with its details by ID. Used in the edit/delete functions to verify mutation.
@@ -47,7 +43,7 @@ Adds a new manga to the list. Used in the search function to confirm adding to y
 
 #### updateManga
 
-Working, but implementation pushed back back by deployment issues. Working on it.
+Update manga implemented in the client. Every manga entry sports an "Edit" button, the uses this mutation dynamically update the title, image URL, chapters, volumes, synopsis, and the favorite and ongoing status states.
 
 #### deleteManga
 
