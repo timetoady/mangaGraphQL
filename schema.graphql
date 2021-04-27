@@ -11,6 +11,7 @@ type Manga {
   author: String
   chapters: Int
   createdAt: DateTime!
+  favorite: Boolean
   genres(ids: [String]): [String]
   id: Int!
   image_url: String!
@@ -28,6 +29,7 @@ type Manga {
 input MangaCreateInput {
   author: String!
   chapters: Int
+  favorite: Boolean
   genres: [String]
   image_url: String!
   ongoing: Boolean!
