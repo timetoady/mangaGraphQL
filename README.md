@@ -27,9 +27,9 @@ Docker is used to create migration data, but since this server is decoupled from
 
 Gets all current manga on the server. Client uses this to populate the page, and update upon addition/deletion.
 
-#### Ongoing
+#### Ongoing/Finished/Favorite
 
-Returns a list of mange that are still ongoing. Plans to for how to implement this are still fermenting.
+Returns a list of manga that filters based on selection chosen. Uses 3 different queries: ongoing, finished, and favorite, called dynamically through one function. 
 
 #### mangaById
 
