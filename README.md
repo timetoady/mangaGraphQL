@@ -16,11 +16,11 @@ Docker is used to create migration data, but since this server is decoupled from
 
 ### To get this running: 
 
-~~1. Clone this repo~~
-~~2. Use npm start to serve to http://localhost:4000/.~~
+1. ~~Clone this repo~~
+2. ~~Use npm start to serve to http://localhost:4000/.~~
 
 
-3. Access the Netlify-hosted front end (https://objective-lumiere-fb0645.netlify.app/) and navigate to "manga" in the upper left.  
+3. Access the Netlify-hosted front end (https://objective-lumiere-fb0645.netlify.app/) and navigate to "manga" in the upper right.  
 
 
 ## Queries
