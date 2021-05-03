@@ -62,11 +62,32 @@ query allManga{
 
 #### Ongoing/Finished/Favorite
 
-Returns a list of manga that filters based on selection chosen. Uses 3 different queries: ongoing, finished, and favorite, called dynamically through one function. 
+Returns a list of manga that filters based on selection chosen. Uses 3 different queries: ongoing, finished, and favorite, called dynamically through one function to filter the page by the chosen category. 
 
 #### mangaById
 
-Returns a manga with its details by ID. Used in the edit/delete functions to verify mutation.
+Returns a manga with its details by ID. Used in the edit/delete functions to verify the entry selected for mutation.
+
+Example query:
+
+```javascript
+    const MANGA_BY_ID = `
+    query thisManga{
+    mangaById(id: ${id}){
+    title
+    author
+    id
+    ongoing
+    image_url
+    chapters
+    volumes
+    synopsis
+    publishedFrom
+    favorite
+    genres
+    }}
+    `;
+```
 
 ## Mutations
 
@@ -110,3 +131,17 @@ Update manga implemented in the client. Every manga entry sports an "Edit" butto
 #### deleteManga
 
 Deletes a manga by ID. Used in listed manga card delete confirm function.
+
+Example: 
+
+```javascript
+    const DELETE_MANGA = `
+    mutation deleteThisBook{
+    deleteManga(id: ${id}){
+    id
+    title
+    }}
+    `;
+    let deleteThis = await tryCatchQL(mangaDB, DELETE_MANGA);
+
+```
